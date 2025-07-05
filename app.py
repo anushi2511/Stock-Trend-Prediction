@@ -5,8 +5,8 @@ import yfinance as yf
 from tensorflow.keras.models import load_model
 import streamlit as st
 
-start = '2010-01-01'
-end = '2020-12-31'
+start = '2015-01-01'
+end = '2024-12-31'
 
 st.title('Stock Trend Prediction')
 
@@ -14,7 +14,7 @@ user_input = st.text_input('Enter Stock Ticker', 'AAPL')
 df = yf.download(user_input, start=start, end=end)
 
 # Describing the data
-st.subheader('Data from 2010-2020')
+st.subheader('Data from 2015-2024')
 st.write(df.describe())
 
 # Visualizations
@@ -42,7 +42,7 @@ ma200 = df['Close'].rolling(200).mean()
 fig = plt.figure(figsize=(12, 6))
 plt.plot(df['Close'], 'b', label='Close Price')
 plt.plot(ma100, 'orange', label='100-Day MA')
-plt.plot(ma200, 'red', label='200-Day MA')
+plt.plot(ma200, 'r', label='200-Day MA')
 plt.title(f'{user_input} Closing Price with 200-Day MA')
 plt.xlabel('Date')
 plt.ylabel('Price')
@@ -50,7 +50,7 @@ plt.legend()
 st.pyplot(fig)
 
 # Preparing the data for LSTM model
-# We will use the closing price for prediction
+# We are using the closing price for prediction
 # Splitting data into training and testing sets
 data_training = pd.DataFrame(df['Close'][0:int(len(df)*0.70)])
 data_testing = pd.DataFrame(df['Close'][int(len(df)*0.70):int(len(df))])
